@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { View, Text, StatusBar, StyleSheet, ActivityIndicator, Button } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, ActivityIndicator, Button, Alert } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,30 +25,41 @@ const PassivTheme = {
 
 export default function App({navigation}) {
     return (
-      <NavigationContainer theme = {PassivTheme}>
-        <StatusBar barStyle="light-content" backgroundColor = '#3d4852'/>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name = "Login" component = {LoginScreen}></Stack.Screen>
-          <Stack.Screen name = "MainApp" component = {Tabs} options = {{
-            headerLeft: null
-          }}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <GlobalContainer navigation = {navigation}></GlobalContainer>
     );
 }
 
-function Tabs({ navigation }) {
-  return (
-    <Tab.Navigator screenOptions = {({route}) => ({
-      tabBarIcon: ({focused, color, size}) => {
-        var iconName = "ios-warning";
-        if (route.name === "Overview") iconName = "md-home";
-        if (route.name === "Settings") iconName = "md-settings";
-        return <Ionicons name={iconName} size={size} color = {color}/>;
-      }
-    })}>
-      <Tab.Screen name = "Overview" component = {OverviewTab}/>
-      <Tab.Screen name = "Settings" component = {SettingsTab}/>
-    </Tab.Navigator>
-  );
+class GlobalContainer extends React.Component {
+
+  constructor(props) {
+    super(props);
+    Alert.alert(JSON.stringify(this.props));
+    this.state = {
+      loggedIn: false
+    };
+  }
+
+  render() {
+    if (!this.state.loggedIn) {
+      return (
+        <LoginScreen globalState = {this.state} navigation = {this.props.navigation}></LoginScreen>
+      );
+    } else {
+      return (
+        <Tab.Navigator screenOptions = {({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            var iconName = "ios-warning";
+            if (route.name === "Overview") iconName = "md-home";
+            if (route.name === "Settings") iconName = "md-settings";
+            return <Ionicons name={iconName} size={size} color = {color}/>;
+          }
+        })}>
+          <StatusBar hidden = {true}></StatusBar>
+          <Tab.Screen name = "Overview" component = {OverviewTab}/>
+          <Tab.Screen name = "Settings" component = {SettingsTab}/>
+        </Tab.Navigator>
+      );
+    }
+  }
+
 }
