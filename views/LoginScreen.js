@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert, StatusBar } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { textStyle, buttonStyle, textFieldStyle, viewStyle, shadow, centeredTextStyle } from '../assets/Styles';
+import { textStyle, buttonStyle, textFieldStyle, viewStyle, shadow, centeredTextStyle, GRAY } from '../assets/Styles';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -16,6 +16,7 @@ export default class LoginScreen extends Component {
     render() {
         return (
             <View style = {viewStyle}>
+                <StatusBar backgroundColor = {GRAY} barStyle = "light-content"></StatusBar>
                 <View style = {{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source = {require("../assets/icon.png")} style = {{width: 60, height: 60, marginBottom: 20, marginTop: 40}}></Image>
                 </View>

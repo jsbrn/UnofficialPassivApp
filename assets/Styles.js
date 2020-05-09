@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
 
-export const GREEN = "#04a287";
+export const GREEN = "#04a287", GRAY = '#3d4852', LIGHT_GRAY = '#606f7b';
 
-export const centeredViewStyle = StyleSheet.compose({ flex: 1, alignItems: 'center', backgroundColor: '#3d4852'});
+export const centeredViewStyle = StyleSheet.compose({ flex: 1, alignItems: 'center', backgroundColor: GRAY});
 
-export const viewStyle = StyleSheet.compose({flex: 1, backgroundColor: '#3d4852'});
+export const viewStyle = StyleSheet.compose({flex: 1, backgroundColor: GRAY});
 
 export const textStyle = StyleSheet.compose({color: "#ffffff", fontWeight: "bold"});
 
@@ -30,7 +30,7 @@ export const textFieldStyle = StyleSheet.compose({
 });
 
 export const buttonStyle = StyleSheet.compose({
-    backgroundColor: '#04a287',
+    backgroundColor: GREEN,
     alignItems: 'center',
     padding: 15,
     margin: 20,
@@ -40,7 +40,7 @@ export const buttonStyle = StyleSheet.compose({
 });
 
 export const cardStyle = StyleSheet.compose({
-    backgroundColor: '#606f7b',
+    backgroundColor: LIGHT_GRAY,
     marginTop: 10,
     marginBottom: 5,
     width: "95%",

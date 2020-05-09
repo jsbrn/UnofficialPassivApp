@@ -5,26 +5,28 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import OverviewTab from "./views/OverviewTab";
 import SettingsTab from "./views/SettingsTab";
-import PerformanceTab from "./views/PerformanceTab";
+import ReportingTab from "./views/ReportingTab";
 import LoginScreen from "./views/LoginScreen";
 
 import { observable } from 'mobx';
 import { observer, useObserver } from "mobx-react";
+import { GREEN, GRAY } from './assets/Styles';
+import DashboardTab from './views/DashboardTab';
 
 const Tab = createBottomTabNavigator();
 
-const globalState = observable({
-  loggedIn: false
+export const globalState = observable({
+  loggedIn: false,
+  portfolioGroups: ["Group One", "Group Two", "Group Three"]
 });
 
 const PassivTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#ffffff',
-    card: '#3d4852',
+    primary: GREEN,
+    card: GRAY,
     text: '#ffffff',
     border: '#000000',
   }
@@ -39,18 +41,18 @@ export default function App({navigation}) {
     } else {
       return (
         <NavigationContainer theme = {PassivTheme}>
-          <StatusBar backgroundColor = "#3d4852"></StatusBar>
+          <StatusBar backgroundColor = {GRAY} barStyle = "light-content"></StatusBar>
           <Tab.Navigator screenOptions = {({route}) => ({
             tabBarIcon: ({focused, color, size}) => {
               var iconName = "ios-warning";
-              if (route.name === "Overview") iconName = "dashboard";
+              if (route.name === "Dashboard") iconName = "dashboard";
               if (route.name === "Settings") iconName = "setting";
-              if (route.name === "Performance") iconName = "linechart";
+              if (route.name === "Reporting") iconName = "linechart";
               return <AntDesign name={iconName} size={size} color = {color}/>;
             }
           })}>
-            <Tab.Screen name = "Overview" component = {OverviewTab}/>
-            <Tab.Screen name = "Performance" component = {PerformanceTab}/>
+            <Tab.Screen name = "Dashboard" component = {DashboardTab}/>
+            <Tab.Screen name = "Reporting" component = {ReportingTab}/>
             <Tab.Screen name = "Settings" component = {SettingsTab}/>
           </Tab.Navigator>
         </NavigationContainer>

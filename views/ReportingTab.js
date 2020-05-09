@@ -6,9 +6,9 @@ import {viewStyle, centeredTextStyle, GREEN} from '../assets/Styles';
 
 const Stack = createStackNavigator();
 
-const PerformanceTab = () => (
+const ReportingTab = () => (
     <Stack.Navigator>
-        <Stack.Screen name = "Performance" component = {Content} options = {
+        <Stack.Screen name = "Reporting" component = {Content} options = {
             {headerLeft: () => (<Image style = {{width: 30, height: 30, marginLeft: 20}}source = {require('../assets/icon.png')}></Image>)}    
         }></Stack.Screen>
     </Stack.Navigator>
@@ -22,4 +22,4 @@ function Content() {
     );
 }
 
-export default PerformanceTab;
+export default ReportingTab;
