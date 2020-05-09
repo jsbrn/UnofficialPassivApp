@@ -1,41 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert, StatusBar } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-
-var Styles = {
-    textStyle: StyleSheet.compose({color: "#ffffff", fontWeight: "bold", textAlign: 'center'}),
-    viewStyle: StyleSheet.compose({ flex: 1, alignItems: 'stretch' }, {
-        backgroundColor: '#3d4852'
-    }),
-    textFieldStyle: StyleSheet.compose({
-        backgroundColor: 'rgba(255, 255, 255, 125)',
-        marginBottom: 10,
-        marginLeft: 20,
-        marginRight: 20,
-        height: 55,
-        borderColor: "#000000",
-        borderStyle: 'solid',
-        borderRadius: 10,
-        marginTop: 10,
-        fontSize: 20,
-        padding: 5,
-        paddingLeft: 10,
-    }),
-    buttonStyle: StyleSheet.compose({
-        backgroundColor: '#04a287',
-        alignItems: 'center',
-        padding: 15,
-        margin: 20,
-        borderRadius: 10,
-        borderColor: 'black',
-        borderStyle: 'solid'
-    })
-};
+import { textStyle, buttonStyle, textFieldStyle, viewStyle, shadow, centeredTextStyle } from '../assets/Styles';
 
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
-        Alert.alert(JSON.stringify(props));
         this.state = {
             signInText: "SIGN IN",
             emailInput: "",
@@ -45,19 +15,18 @@ export default class LoginScreen extends Component {
     }
     render() {
         return (
-            <View style = {Styles.viewStyle}>
-                <StatusBar backgroundColor = "#3d4852"></StatusBar>
+            <View style = {viewStyle}>
                 <View style = {{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source = {require("../assets/icon.png")} style = {{width: 60, height: 60, marginBottom: 20, marginTop: 40}}></Image>
                 </View>
-                <Text style = {Styles.textStyle}>Sign into your Passiv Account</Text>
+                <Text style = {centeredTextStyle}>Sign into your Passiv Account</Text>
                 <TextInput 
                     returnKeyType = "next" 
                     autoCompleteType = "email" 
                     keyboardType = "email-address" 
                     placeholder = "Email address"
                     autoFocus = {true}
-                    style = {Styles.textFieldStyle}
+                    style = {textFieldStyle}
                     onChangeText = {(text) => this.setState({emailInput: text})}
                 ></TextInput>
                 <TextInput 
@@ -65,13 +34,13 @@ export default class LoginScreen extends Component {
                     secureTextEntry = {true} 
                     autoCompleteType = "password" 
                     placeholder = "Password" 
-                    style = {Styles.textFieldStyle}
+                    style = {textFieldStyle}
                     onChangeText = {(text) => this.setState({passwordInput: text})}
                 ></TextInput>
                 <TouchableOpacity
                     onPress={this.state.signingIn ? ()=>{} : ()=>{ 
                         this.setState({signInText: "SIGNING IN...", signingIn: true});
-                        fetch('https://getpassiv.com/api/v1/auth/login', {
+                        fetch('https://virtserver.swaggerhub.com/passiv/PassivAPI/v1/auth/login', {
                             method: 'POST',
                             headers: {
                                 "X-API-KEY": '8186fa0099f913c06db9ae3c9b6e15351bbf28b4'
@@ -82,9 +51,12 @@ export default class LoginScreen extends Component {
                             })
                         })
                             .then((response) => {
-                                Alert.alert("Server Response", JSON.stringify(response));
+                                var status = response.status;
+                                Alert.alert("Server Response", status+"");
+                                //if (status == 200) {
+                                    this.props.globalState.loggedIn = true;
+                                //}
                                 this.setState({signInText: "SIGN IN", signingIn: false});
-                                this.props.globalState.loggedIn = true;
                             })
                             .catch((error) => {
                                 Alert.alert("Error", error.message);
@@ -92,10 +64,11 @@ export default class LoginScreen extends Component {
                             });
                         
                     }}
-                    style = {Styles.buttonStyle}
+                    style = {StyleSheet.compose(buttonStyle, shadow)}
                 >
-                    <Text style = {Styles.textStyle}>{this.state.signInText}</Text>
+                    <Text style = {centeredTextStyle}>{this.state.signInText}</Text>
                 </TouchableOpacity>
+                <Text style = {centeredTextStyle}>Questions?</Text>
             </View>
         );
     }

@@ -1,26 +1,26 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, Button, Text, Switch, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+
+import {viewStyle, centeredTextStyle, GREEN, cardStyle} from '../assets/Styles';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 
-const Styles = {
-    textStyle: StyleSheet.compose({color: "#ffffff", fontWeight: "bold"}),
-    viewStyle: StyleSheet.compose({ flex: 1, alignItems: 'center'}, {
-        backgroundColor: '#3d4852'
-    })
-};
-
 const SettingsTab = () => (
     <Stack.Navigator>
-        <Stack.Screen name = "Settings" component = {Content}></Stack.Screen>
+        <Stack.Screen name = "Settings" component = {Content} options = {
+            {headerLeft: () => (<Image style = {{width: 30, height: 30, marginLeft: 20}}source = {require('../assets/icon.png')}></Image>)}    
+        }></Stack.Screen>
     </Stack.Navigator>
 );
 
 function Content() {
     return (
-        <View style = {Styles.viewStyle}>
-            <Text style = {Styles.textStyle}>Settings tab</Text>
+        <View style = {viewStyle}>
+            <TouchableWithoutFeedback style = {cardStyle}>
+                
+            </TouchableWithoutFeedback>
         </View>
     );
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { View, Text, StatusBar, StyleSheet, ActivityIndicator, Button, Alert } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,12 +7,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import OverviewTab from "./views/OverviewTab";
 import SettingsTab from "./views/SettingsTab";
+import PerformanceTab from "./views/PerformanceTab";
 import LoginScreen from "./views/LoginScreen";
 
 import { observable } from 'mobx';
-import { observer } from "mobx-react";
+import { observer, useObserver } from "mobx-react";
 
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const globalState = observable({
@@ -31,19 +31,7 @@ const PassivTheme = {
 }
 
 export default function App({navigation}) {
-    return (
-      <GlobalContainer></GlobalContainer>
-    );
-}
-
-@observer
-class GlobalContainer extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
+  return useObserver(() => {
     if (!globalState.loggedIn) {
       return (
         <LoginScreen globalState = {globalState}></LoginScreen>
@@ -51,20 +39,22 @@ class GlobalContainer extends React.Component {
     } else {
       return (
         <NavigationContainer theme = {PassivTheme}>
+          <StatusBar backgroundColor = "#3d4852"></StatusBar>
           <Tab.Navigator screenOptions = {({route}) => ({
             tabBarIcon: ({focused, color, size}) => {
               var iconName = "ios-warning";
-              if (route.name === "Overview") iconName = "md-home";
-              if (route.name === "Settings") iconName = "md-settings";
-              return <Ionicons name={iconName} size={size} color = {color}/>;
+              if (route.name === "Overview") iconName = "dashboard";
+              if (route.name === "Settings") iconName = "setting";
+              if (route.name === "Performance") iconName = "linechart";
+              return <AntDesign name={iconName} size={size} color = {color}/>;
             }
           })}>
             <Tab.Screen name = "Overview" component = {OverviewTab}/>
+            <Tab.Screen name = "Performance" component = {PerformanceTab}/>
             <Tab.Screen name = "Settings" component = {SettingsTab}/>
           </Tab.Navigator>
         </NavigationContainer>
       );
     }
-  }
-
+  });
 }
