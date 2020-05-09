@@ -5,12 +5,19 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import OverviewTab from "./components/OverviewTab";
-import SettingsTab from "./components/SettingsTab";
-import LoginScreen from "./components/LoginScreen";
+import OverviewTab from "./views/OverviewTab";
+import SettingsTab from "./views/SettingsTab";
+import LoginScreen from "./views/LoginScreen";
+
+import { observable } from 'mobx';
+import { observer } from "mobx-react";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const globalState = observable({
+  loggedIn: false
+});
 
 const PassivTheme = {
   ...DefaultTheme,
@@ -25,39 +32,37 @@ const PassivTheme = {
 
 export default function App({navigation}) {
     return (
-      <GlobalContainer navigation = {navigation}></GlobalContainer>
+      <GlobalContainer></GlobalContainer>
     );
 }
 
+@observer
 class GlobalContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    Alert.alert(JSON.stringify(this.props));
-    this.state = {
-      loggedIn: false
-    };
   }
 
   render() {
-    if (!this.state.loggedIn) {
+    if (!globalState.loggedIn) {
       return (
-        <LoginScreen globalState = {this.state} navigation = {this.props.navigation}></LoginScreen>
+        <LoginScreen globalState = {globalState}></LoginScreen>
       );
     } else {
       return (
-        <Tab.Navigator screenOptions = {({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            var iconName = "ios-warning";
-            if (route.name === "Overview") iconName = "md-home";
-            if (route.name === "Settings") iconName = "md-settings";
-            return <Ionicons name={iconName} size={size} color = {color}/>;
-          }
-        })}>
-          <StatusBar hidden = {true}></StatusBar>
-          <Tab.Screen name = "Overview" component = {OverviewTab}/>
-          <Tab.Screen name = "Settings" component = {SettingsTab}/>
-        </Tab.Navigator>
+        <NavigationContainer theme = {PassivTheme}>
+          <Tab.Navigator screenOptions = {({route}) => ({
+            tabBarIcon: ({focused, color, size}) => {
+              var iconName = "ios-warning";
+              if (route.name === "Overview") iconName = "md-home";
+              if (route.name === "Settings") iconName = "md-settings";
+              return <Ionicons name={iconName} size={size} color = {color}/>;
+            }
+          })}>
+            <Tab.Screen name = "Overview" component = {OverviewTab}/>
+            <Tab.Screen name = "Settings" component = {SettingsTab}/>
+          </Tab.Navigator>
+        </NavigationContainer>
       );
     }
   }

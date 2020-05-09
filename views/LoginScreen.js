@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert, StatusBar } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 
 var Styles = {
     textStyle: StyleSheet.compose({color: "#ffffff", fontWeight: "bold", textAlign: 'center'}),
@@ -36,6 +35,7 @@ var Styles = {
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
+        Alert.alert(JSON.stringify(props));
         this.state = {
             signInText: "SIGN IN",
             emailInput: "",
@@ -73,6 +73,9 @@ export default class LoginScreen extends Component {
                         this.setState({signInText: "SIGNING IN...", signingIn: true});
                         fetch('https://getpassiv.com/api/v1/auth/login', {
                             method: 'POST',
+                            headers: {
+                                "X-API-KEY": '8186fa0099f913c06db9ae3c9b6e15351bbf28b4'
+                            },
                             body: JSON.stringify({
                                 "email": this.state.emailInput,
                                 "password": this.state.passwordInput
@@ -81,6 +84,7 @@ export default class LoginScreen extends Component {
                             .then((response) => {
                                 Alert.alert("Server Response", JSON.stringify(response));
                                 this.setState({signInText: "SIGN IN", signingIn: false});
+                                this.props.globalState.loggedIn = true;
                             })
                             .catch((error) => {
                                 Alert.alert("Error", error.message);
