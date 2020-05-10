@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Switch, Image } from 'react-native';
+import { View, TouchableOpacity, Text, Switch, Image, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {viewStyle, centeredTextStyle, GREEN} from '../assets/Styles';
+import {viewStyle, centeredTextStyle, GREEN, textStyle, centeredViewStyle} from '../assets/Styles';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ const ReportingTab = () => (
 function Content() {
     return (
         <View style = {viewStyle}>
-            
+            <Text style = {StyleSheet.compose(centeredTextStyle, {marginTop: 20})}>Coming soon!</Text>
         </View>
     );
 }

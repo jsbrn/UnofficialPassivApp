@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert, StatusBar } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { textStyle, buttonStyle, textFieldStyle, viewStyle, shadow, centeredTextStyle, GRAY } from '../assets/Styles';
+import { GLOBAL_STATE } from '../assets/Store';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class LoginScreen extends Component {
     }
     render() {
         return (
-            <View style = {viewStyle}>
+            <View style = {StyleSheet.compose(viewStyle, {justifyContent: 'center'})}>
                 <StatusBar backgroundColor = {GRAY} barStyle = "light-content"></StatusBar>
                 <View style = {{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source = {require("../assets/icon.png")} style = {{width: 60, height: 60, marginBottom: 20, marginTop: 40}}></Image>
@@ -38,13 +39,13 @@ export default class LoginScreen extends Component {
                     style = {textFieldStyle}
                     onChangeText = {(text) => this.setState({passwordInput: text})}
                 ></TextInput>
-                <TouchableOpacity
+                <TouchableOpacity activeOpacity = {0.7}
                     onPress={this.state.signingIn ? ()=>{} : ()=>{ 
                         this.setState({signInText: "SIGNING IN...", signingIn: true});
-                        fetch('https://virtserver.swaggerhub.com/passiv/PassivAPI/v1/auth/login', {
+                        fetch('https://getpassiv.com/api/v1/auth/login', {
                             method: 'POST',
                             headers: {
-                                "X-API-KEY": '8186fa0099f913c06db9ae3c9b6e15351bbf28b4'
+                                "Authentication": 'API_KEY'
                             },
                             body: JSON.stringify({
                                 "email": this.state.emailInput,
@@ -55,7 +56,7 @@ export default class LoginScreen extends Component {
                                 var status = response.status;
                                 Alert.alert("Server Response", status+"");
                                 //if (status == 200) {
-                                    this.props.globalState.loggedIn = true;
+                                    GLOBAL_STATE.loggedIn = true;
                                 //}
                                 this.setState({signInText: "SIGN IN", signingIn: false});
                             })

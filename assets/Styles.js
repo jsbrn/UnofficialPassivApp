@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
 
-export const GREEN = "#04a287", GRAY = '#3d4852', LIGHT_GRAY = '#606f7b';
+export const RED = "#b82d2d", GREEN = "#04a287", GRAY = '#3d4852', LIGHT_GRAY = '#606f7b';
 
-export const centeredViewStyle = StyleSheet.compose({ flex: 1, alignItems: 'center', backgroundColor: GRAY});
+export const centeredViewStyle = StyleSheet.compose({width: "100%", flex: 1, alignItems: 'center', backgroundColor: GRAY});
 
 export const viewStyle = StyleSheet.compose({flex: 1, backgroundColor: GRAY});
 
@@ -38,6 +38,8 @@ export const buttonStyle = StyleSheet.compose({
     borderColor: 'black',
     borderStyle: 'solid'
 });
+
+export const redButtonStyle = StyleSheet.compose(buttonStyle, {backgroundColor: RED});
 
 export const cardStyle = StyleSheet.compose({
     backgroundColor: LIGHT_GRAY,
