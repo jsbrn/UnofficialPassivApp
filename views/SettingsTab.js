@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import {viewStyle, headerStyle, centeredTextStyle, GREEN, cardStyle, textStyle, centeredViewStyle, buttonStyle, shadow, redButtonStyle} from '../assets/Styles';
 import { TouchableWithoutFeedback, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { GLOBAL_STATE } from '../assets/Store';
+import { GLOBAL_STATE } from '../io/Store';
 
 const Stack = createStackNavigator();
 

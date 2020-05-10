@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { centeredViewStyle, textStyle, headerStyle, cardHeaderStyle, cardStyle, shadow, viewStyle, GRAY } from '../assets/Styles';
 import { useObserver } from 'mobx-react';
-import { GLOBAL_STATE } from '../assets/Store';
+import { GLOBAL_STATE } from '../io/Store';
+import { request, refreshDashboard } from '../io/Network';
 
 const Stack = createStackNavigator();
 
@@ -52,12 +53,8 @@ function Content({route, navigation}) {
 
         const [refreshing, setRefreshing] = React.useState(false);
         const onRefresh = React.useCallback(() => {
-            fetch("https://google.ca").then((response) => {
-                GLOBAL_STATE.portfolios.push();
-            }).catch((error)=>{
-                Alert.alert("Error", "Could not connect to Passiv. Are you connected to WiFi?");
-            })
-            setRefreshing(false)
+            refreshDashboard();
+            setRefreshing(false);
         });
 
         return (
